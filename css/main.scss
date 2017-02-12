@@ -1,0 +1,266 @@
+/*コンパイルする
+ターミナルでsass main.scss:style.css
+npm -g binでグローバルインストールでどこにインストールされたかわかる*/
+
+$menu_height : 50px;
+$toolbar_height : 30px;
+$parts_width : 120px;
+$z-index : 100;
+
+BODY {
+  margin :0;
+  position: relative;
+  overflow: auto;
+}
+
+div#menu {
+position: fixed !important;
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: $menu_height;
+background-color : #2d4429;　/*　背景色 */{}
+}
+
+div#toolbar{
+  position: fixed !important;
+  top: $menu_height;
+  width: 100%;
+  height: $toolbar_height;
+  background-color: #a1c391
+}
+
+div#draw_space{
+  /*各要素の大きさ変えたらここも変える*/
+  position: fixed;
+  top: $menu_height + $toolbar_height;
+  right: $parts_width;
+  left:0px;
+  bottom:0px;
+  overflow: auto;
+  background-color: #4f4f4f;
+}
+
+canvas#canvas{
+  margin:40px;
+}
+
+div#parts {
+  position: fixed !important;
+  position: absolute;
+  top: $menu_height + $toolbar_height;
+  right: 0;
+  width:$parts_width;
+  height:100%;
+  padding: 8px;
+  background-color: #bfd7c5;
+}
+
+button.jscolor{
+  width: 50%;
+  height: 20px;
+  vertical-align: middle;
+}
+
+input.pixel{
+  width: 40px;
+}
+
+.btn_t{
+  margin: 5 auto 5 auto;
+  width:100%;
+  background: -moz-linear-gradient(top,#9ac766 0%,#1e741f);
+	background: -webkit-gradient(linear, left top, left bottom, from(#9ac766), to(#1e741f));
+  border: 1px solid #DDD;
+  color:#FFF;
+}
+
+.sub_menu{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+#lean_overlay{
+  position: fixed;
+  z-index:$z-index;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  display: none;
+}
+
+#div787{
+  background: none repeat scroll 0 0 #FFFFFF;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+  display: none;
+  padding: 15px;
+  height: 50%;
+  width: 50%;
+  position: relative;
+ }
+
+.modal_close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: block;
+  width: 30px;
+  height: 30px;
+  background: url(../img/close.jpg);
+  z-index: $z-index + 100;
+}
+
+#tab1{
+  background-color: #ffe324;
+  height: 90%;
+  width:90%;
+  padding: 15px;
+  position: relative;
+}
+
+#tab2{
+  background-color: #eec11e;
+  height: 90%;
+  width:90%;
+  padding: 15px;
+}
+
+#tab3{
+  background-color: #e7a614;
+  height: 90%;
+  width:90%;
+  padding: 15px;
+}
+
+div#table{
+  position: absolute;
+  top: 0;
+  left: 15%;
+}
+
+div#tblbtn{
+  position: absolute;
+  width: 30;
+  left: 0;
+  bottom: 0;
+}
+
+.tab_upper{
+  position: relative;
+  height: 80%;
+  border-style:solid;
+  border-width: 1px;
+  margin: 5px;
+  text-align: center;
+}
+
+.tab_lower{
+  position: relative;
+  height: 20%;
+  right: 0;
+}
+
+.next_button{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+/*canvas.s_can{
+  background-color: #ffffff;
+  display: table-cell;
+  vertical-align: middle;
+  width: 25%;
+  height: 30%;
+  margin: 5px;
+  border-width: 1px;
+  border-style:solid;
+}*/
+
+div.can_div{
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+div#overlay-all{
+  display: none;
+  z-index: $z-index + 20000;
+  background-color: black;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  filter:alpha(opacity=75);
+  -moz-opacity: 0.75;
+  opacity: 0.75;
+}
+
+img#load-gif{
+  width: 66px;
+  height: 66px;
+  display: none;
+  position: fixed;
+  _position: absolute; /* IE6対策 */
+  top: 50%;
+  left: 50%;
+  margin-top: -33px; /* heightの半分のマイナス値 */
+  margin-left: -33px; /* widthの半分のマイナス値 */
+  z-index: $z-index + 20001;
+}
+
+canvas#edit_can{
+  background-color: #ffffff;
+  width: 100%;
+  height: 100%;
+}
+
+div#s_can_div_left{
+  float:left;
+  height: 100%;
+  width: 70%;
+  overflow: scroll;
+  border-right-width: 1px;
+  text-align: center;
+  display: box;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -o-box;
+  display: -ms-box;
+  box-pack: justify;
+  -moz-box-pack: justify;
+  -webkit-box-pack: justify;
+  -o-box-pack: justify;
+  -ms-box-pack: justify;
+
+}
+
+div#s_can_div_right{
+  float:left;
+  height: 100%;
+  width: 30%;
+  overflow: scroll;
+  text-align: center;
+}
+
+div#graph_div{
+  width: 100%;
+  overflow: scroll;
+  text-align: center;
+  display: box;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -o-box;
+  display: -ms-box;
+  box-pack: justify;
+  -moz-box-pack: justify;
+  -webkit-box-pack: justify;
+  -o-box-pack: justify;
+  -ms-box-pack: justify;
+
+}

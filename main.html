@@ -4,10 +4,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="css/main.min.css">
   <link rel="stylesheet" media="screen" href="javascripts/handsontable/handsontable.min.css">
+  <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" />
   <title>myapp</title>
 </head>
 
-<body>
+<body onload="page_onload()">
   <div id="menu">
     <input type="button" value="new" class="btn_m">
     <span onclick="">title</span>
@@ -18,38 +19,72 @@
     </div>
   </div>
   <div id="toolbar">
-    <input type="button" value="undo" class="btn_b">
-    <input type="button" value="redo" class="btn_b">
+    <input type="button" value="undo" class="btn_b" onclick="undo()">
+    <input type="button" value="redo" class="btn_b" onclick="redo()">
   </div>
 
   <div id="draw_space">
     <div id="canvas_space">
-      <canvas id="canvas" height="800px" width="1000px" style="background-color:#ddc9de">Canvas対応のブラウザで閲覧してください</canvas>
+      <canvas id="canvas" height="800px" width="1000px" style="background-color:#ffffff">Canvas対応のブラウザで閲覧してください</canvas>
     </div>
   </div>
 
   <div id="parts">
-
-    <input type="button" value="Lines" class="btn_t"><br>
-    <input type="button" value="Shapes" class="btn_t"><br>
-    <input type="button" value="Icons"  class="btn_t"><br>
-    <input type="button" value="Upload"  class="btn_t"><br>
+    <input type="button" value="Choise"  class="btn_t" onclick="mode_onclick(0)"><br>
     <hr>
-    <input type="button" value="Background"  class="btn_t"><br>
+    <input type="button" value="Lines" class="btn_t" onclick="mode_onclick(1)"><br>
+    <div id="sm_line" class="sub_menu">
+      Width:<input type="number" id="line_pixel" class="pixel" value="1" min="1" max="100" oninput="refresh_slider(value, 1)">px<br>
+      <div class="slider" id="line_slider" style="margin:10px;"></div>
+      Color: <button id="line_color" class="jscolor {valueElement:null,value:'#000000'}"></button>
+      <br>
+    </div>
+    <input type="button" value="Shapes" class="btn_t" onclick="mode_onclick(2)"><br>
+    <div id="sm_shape" class="sub_menu">
+      Shape:<select id="shape_select">
+        <option value="circle">circle</option>
+        <option value="square">square</option>
+        <option value="r_rectangle">rounded square</option>
+        <option value="star">star</option>
+      </select>
+      Size:<input type="number" id="shape_pixel" class="pixel" value="1" min="1" max="200" oninput="refresh_slider(value, 2)">pt<br>
+      <div class="slider" id="shape_slider" style="margin:10px;"></div>
+      Color:<button id="shape_color" class="jscolor {valueElement:null,value:'#000000'}"></button><br>
+    </div>
+    <input type="button" value="Icons"  class="btn_t" onclick="mode_onclick(3)"><br>
+    <input type="button" value="Upload"  class="btn_t" onclick="mode_onclick(4)"><br>
     <hr>
-    <input type="button" value="Text"  class="btn_t"><br>
+    <input type="button" value="Background"  class="btn_t" onclick="mode_onclick(5)"><br>
+    <div id="sm_background" class="sub_menu">
+      Color: <button id="background-color" class="jscolor {valueElement:null, onFineChange:'change_bg(this)', value:'#ffffff'} "></button>
+      <br>
+    </div>
     <hr>
-    <input type="button" value="Canvas Size" class="btn_t"><br>
+    <input type="button" value="Text"  class="btn_t" onclick="mode_onclick(6)"><br>
+    <div id="sm_text" class="sub_menu">
+      Font Size:<input type="number" id="text_pixel" class="pixel" value="1" min="1" max="100" oninput="refresh_slider(value, 6)">pt<br>
+      <div class="slider" id="text_slider" style="margin:10px;"></div>
+      Color: <button id="text_color" class="jscolor {valueElement:null,value:'#000000'}"></button><br>
+      Text: <input type="text" id="text_text"></input>
+      <br>
+    </div>
     <hr>
+    <input type="button" value="Canvas Size" class="btn_t" onclick="mode_onclick(7)"><br>
+    <input type="button" value="python test" class="btn_t" onclick="python_test()" style="display:none"><br>
+    <div id="result" style="display:none">計算結果</div>
+    <hr>
+    <!--
     <input type="button" value="Create infographic" class="btn_t">
+  -->
     <br>
-    <a rel="leanModal" href="#div787">Create infographic</a>
+    <a rel="leanModal" href="#div787" onclick="change_tab(1)">Create infographic</a>
   </div>
 
 
   <div id="div787">
     <!-- モーダルウィンドウの中身 -->
     <div id="tab1" class="tab">
+      <input type="button" value="close" class="modal_close">
       <div class="tab_upper">
         <div id="tblbtn">
           <input type="button" value="+" onclick="add_row()">
@@ -63,21 +98,11 @@
       </div>
     </div>
     <div id="tab2" class="tab" style="display:none">
-      <div class="tab_upper">
-        <div id="can_row_1" class="can_div">
-          <canvas class="s_can" id="s_can1"></canvas>
-          <canvas class="s_can" id="s_can2"></canvas>
-          <canvas class="s_can" id="s_can3"></canvas>
+      <input type="button" value="close" class="modal_close">
+      <div class="tab_upper" id="s_can_div">
+        <div id="s_can_div_left">
         </div>
-        <div id="can_row_2" class="can_div">
-          <canvas class="s_can" id="s_can4"></canvas>
-          <canvas class="s_can" id="s_can5"></canvas>
-          <canvas class="s_can" id="s_can6"></canvas>
-        </div>
-        <div id="can_row_3" class="can_div">
-          <canvas class="s_can" id="s_can7"></canvas>
-          <canvas class="s_can" id="s_can8"></canvas>
-          <canvas class="s_can" id="s_can9"></canvas>
+        <div id="s_can_div_right">
         </div>
       </div>
       <div class="tab_lower">
@@ -86,11 +111,21 @@
       </div>
     </div>
     <div id="tab3" class="tab" style="display:none">
-      <p>(タブ3の中身。いくつでも増やせます。)</p>
-      <input type="button" value="back" onclick="change_tab(2)">
+      <input type="button" value="close" class="modal_close">
+      <div id="graph_div" class="tab_upper">
+        <!--<canvas class="edit_can" id="edit_can"></canvas>-->
+      </div>
+      <div class="tab_lower">
+        <input type="button" value="back" onclick="change_tab(2)">
+        <input type="button" value="create" onclick="send_to_canvas()">
+      </div>
     </div>
     <!-- モーダルウィンドウの中身ここまで -->
   </div>
+
+  <!-- 画像検索中のローディング画面 -->
+  <div id="overlay-all"></div>
+  <img id="load-gif" alt="画像検索中……" src="./img/loading.gif"></img>
 
   <!-- 以下JSファイルの読み込み -->
   <!-- ▼jQuery -->
@@ -116,8 +151,25 @@
   <script type="text/javascript" src="./javascripts/handsontable/handsontable.full.min.js"></script>
   <script type="text/javascript" src="./javascripts/handsontable/ZeroClipboard.js"></script>
 
+  <!-- createJS -->
+  <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+
+  <!-- BitmapData for EaselJS -->
+  <script type="text/javascript" src="./javascripts/bitmapdata-1.0.2.min.js"></script>
+
+  <!-- JSColor-->
+  <script type="text/javascript" src="./javascripts/jscolor.min.js"></script>
+
+  <!-- jquery ui -->
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
+  <!-- コーナー検出 -->
+  <script type="text/javascript" src="./javascripts/cornerdetect.js"></script>
+
   <!-- 自作スクリプト　-->
+  <script type="text/javascript" src="./javascripts/onload.js"></script>
   <script type="text/javascript" src="./javascripts/table.js"></script>
   <script type="text/javascript" src="./javascripts/tab.js"></script>
+  <script type="text/javascript" src="./javascripts/draw.js"></script>
 </body>
 </html>

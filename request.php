@@ -1,18 +1,25 @@
 <?php
+
 //取得したアカウントキー
-  $accountKey = 'Bod44rXlmwPIHsZKcDkSaclUV7C3sLcHoxk0tmb7jq8';
+  //$accountKey = 'Bod44rXlmwPIHsZKcDkSaclUV7C3sLcHoxk0tmb7jq8';
+  //$accountKey="6b00f271115949d5ab4db78ed9b08593";
+  $accountKey="6d3af3cbf62940b8b4edfe02d7706491";
+  //$accountKey="9f3ed67d6ebf4ef5b0599f7c0478500b";
+  //ver 5 Key 1:6b00f271115949d5ab4db78ed9b08593
+  //ver 5 key 2:9f3ed67d6ebf4ef5b0599f7c0478500b
 
   //エンドポイントとパラメーターなどをセット
   //画像検索以外の場合は$serviceOpを変更
   $query = "'";
   $query .= "{$_POST['object']}";
-  $query .= " png'";
-  $query = rawurlencode($query);
+  $query .= " icon png'";
+  $query = urlencode($query);
   $rootUri = 'https://datamarket.azure.com/dataset/explore/bing/search';
   $serviceOp = "Image";
   //$endpoint = "$rootUri/$serviceOp?\$format=json&Query=$query&ImageFilters='Style:Graphics+Color:Monochrome'";
-  $endpoint = "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=$query&Adult=%27Strict%27&ImageFilters=%27Style%3AGraphics%2BColor%3AMonochrome%27";
-
+  //旧$endpoint = "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=$query&Adult=%27Strict%27&ImageFilters=%27Style%3AGraphics%2BColor%3AMonochrome%27";
+  $endpoint = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=$query&count=50&safeSearch=Strict&color=Monochrome&imageType=Clipart";
+  //$endpoint = "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27bike%27";
   // Encode the credentials and create the stream context.
 
 $auth = base64_encode("$accountKey:$accountKey");
@@ -21,38 +28,15 @@ $data = array(
     'request_fulluri' => true,
     // ignore_errors can help debug – remove for production. This option added in PHP 5.2.10
     'ignore_errors' => true,
-    'header' => "Authorization: Basic $auth")
+    //'header' => "Authorization: Basic $auth"
+    'header' => "Ocp-Apim-Subscription-Key: $accountKey"),
+  "ssl"=>array(
+        "verify_peer"=>false,
+        "verify_peer_name"=>false),
   );
 
 $context = stream_context_create($data);
+$result = file_get_contents($endpoint, false, $context);
+echo($result);
 
-// Get the response from Bing.
-
-$response = file_get_contents($endpoint, 0, $context);
-
-// Decode the response.
-$jsonObj = json_decode($response);
-$resultStr = '';
-
-/*
-// Parse each result according to its metadata type.
-foreach($jsonObj->d->results as $value) {
-  switch ($value->__metadata->type) {
-    case 'WebResult':
-      $resultStr .= "<a href=\"{$value->Url}\">{$value->Title}</a><p>{$value->Description}</p>";
-      break;
-    case 'ImageResult':
-      $resultStr .= "<h4>{$value->Title} ({$value->Width}x{$value->Height}) " .
-      "{$value->FileSize} bytes)</h4>" .
-      "<a href=\"{$value->MediaUrl}\">" .
-      "<img src=\"{$value->Thumbnail->MediaUrl}\"></a><br />";
-      break;
-    }
-  }
-
-  // Substitute the results placeholder. Ready to go.
-  $contents = str_replace('{RESULTS}', $resultStr, $contents);
-  */
-  echo $jsonObj;
-  //echo('<ul ID="resultList">');
  ?>

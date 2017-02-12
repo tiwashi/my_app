@@ -1,0 +1,34 @@
+<!Doctype HTML>
+<html>
+  <head>
+    <title>load test</title>
+  </head>
+
+  <body onLoad="loaded()">
+
+    <div id="sm_upload" class="sub_menu">
+        Image file:<br><input type="file" accept=".jpg,.png,image/jpeg,image/png">
+        <br>
+        <input type="submit" value="upload">
+    </div>
+
+  </body>
+
+  <script type="text/javascript">
+  <!--
+  function loaded(){
+    console.time("load");
+    var img = new Image();
+
+    img.onload = function(){
+      document.body.appendChild(this);
+      console.timeEnd("load");
+    }
+    img.src = "./download/dlinput_0_8.png";
+  }
+
+  function show()
+
+  //-->
+  </script>
+</html>

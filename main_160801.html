@@ -1,0 +1,180 @@
+<!Doctype HTML>
+<html>
+  <head>
+    <title>grafie</title>
+    <link rel="shortcut icon" href="./favicon.ico"/>
+    <meta charset="UTF-8">
+
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="css_160801.css">
+
+    <!--Color picker css-
+    <link rel='stylesheet' media='screen' type='text/css' href='js/colorpicker/css/colorpicker.css'>
+  -->
+
+    <!--farbatastic picker css-->
+    <link rel="stylesheet" href="js/farbtastic/farbtastic.css" type="text/css" />
+
+    <!--jqueryUIのCSS-->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+
+    <!--外部ライブラリ-->
+
+      <!--jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <!--jqueryUI-->
+    <script type="text/javascript"src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+      <!--右クリックContextMenu http://phpjavascriptroom.com/?t=ajax&p=jquery_plugin_contextmenu-->
+    <script type="text/javascript" src="js/contextmenu.js"></script>
+
+    <!--Paper.js-->
+    <script type="text/javascript" src="js/paper-full.min.js"></script>
+
+    <!--Color Picker
+    <script type='text/javascript' src="js/colorpicker/js/colorpicker.js"></script>-->
+
+    <!--farbatastic picker-->
+    <script type="text/javascript" src="js/farbtastic/farbtastic.js"></script>
+
+    <!--WordNetのいろいろ-->
+    <script type="text/javascript" src="wordnet-develop/lib/data_file_new.js"></script>
+    <script type="text/javascript" src="wordnet-develop/lib/index_file_new.js"></script>
+    <script type="text/javascript" src="wordnet-develop/lib/wordnet_file_new.js"></script>
+    <script type="text/javascript" src="wordnet-develop/lib/wordnet_new.js"></script>
+
+    <!--自作スクリプト-->
+    <script type="text/javascript" src="js/onload.js"></script>
+    <script type="text/javascript" src="js/context_menu_function.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
+    <script type="text/javascript" src="js/mypaperscript.js"></script>
+    <script type="text/javascript" src="js/downloadworker.js"></script>
+    <script type="text/javascript" src="js/right_menu.js"></script>
+    <script type="text/javascript" src="js/synonym.js"></script>
+    <script type="text/javascript" src="js/upload_image.js"></script>
+
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  </head>
+
+  <body style="background-color : #555555" onLoad="on_load()" onContextmenu="return false">
+    <!--Canvas-->
+    <div id="canvas_main_div">
+      <canvas id="canvas_main">canvas対応のブラウザから閲覧してください。</canvas>
+      <!--画像の候補を表示する画面-->
+      <div id="choice">
+        <div class="choice_" onclick="change_base()">change base color</div>
+        <div class="choice_" onclick="make_n_g_can()">graph</div>
+        <div class="choice_" onclick="show_eggs()">change pic</div>
+        <div class="choice_" onclick="delete_sel()">delete</div>
+      </div>
+      <div id="change_bc">
+        <form><input type="text" id="bc_color_text" name="color" value="#123456"/></form>
+        <div id="bc_colorpicker"></div>
+      </div>
+      <div id="candis">
+        <div id="candis_selbtn"></div>
+      </div>
+      <div id="n_g_choice">
+        <div class="n_g_choice" id="num_can" onclick=""></div>
+        <div id="n_g_color">
+          <form><input type="text" id="n_g_color_text" name="color" value="#123456"/></form>
+          <div id="n_g_colorpicker"></div>
+        </div>
+        <div class="n_g_choice" id="graph_can" onclick=""></div>
+      </div>
+    </div>
+
+    <div id="toolbar">
+      <!--
+      <input type="button" value="undo" class="btn_b" onclick="undo()">
+      <input type="button" value="redo" class="btn_b" onclick="redo()">-->
+    </div>
+
+    <div id="parts">
+      <input type="button" value="Select"  class="btn_t" onclick="mode_onclick(0)"><br>
+      <div id="sm_choice" class="sub_menu">
+        <input type="button" value="↑" class="btn_b" onclick="c_up()">
+        <input type="button" value="↓" class="btn_b" onclick="c_down()">
+        <br>
+        <input type="button" value="delete" class="btn_b" onclick="delete_sel()">
+        <br>
+      </div>
+      <hr>
+      <input type="button" value="Lines" class="btn_t" onclick="mode_onclick(1)"><br>
+      <div id="sm_line" class="sub_menu">
+        Width:<input type="number" id="line_pixel" class="pixel" value="1" min="1" max="100" oninput="refresh_slider(value, 1)">px<br>
+        <div class="slider" id="line_slider" style="margin:10px;"></div>
+        Color: <form><input type="text" id="rm_line_color_text" name="color" value="#123456"/></form>
+        <div id="rm_line_colorpicker"></div>
+        <br>
+      </div>
+      <input type="button" value="Shapes" class="btn_t" onclick="mode_onclick(2)"><br>
+      <div id="sm_shape" class="sub_menu">
+        Shape:<select id="shape_select">
+          <option value="circle">circle</option>
+          <option value="square">square</option>
+          <option value="r_rectangle">rounded square</option>
+          <option value="star">star</option>
+        </select>
+        Size:<input type="number" id="shape_pixel" class="pixel" value="1" min="1" max="200" oninput="refresh_slider(value, 2)">pt<br>
+        <div class="slider" id="shape_slider" style="margin:10px;"></div>
+        Stroke Color: <form><input type="text" id="rm_shape_color_text" name="color" value="#123456"/></form>
+        <div id="rm_shape_cp"></div><br>
+        Fill Color: <form><input type="text" id="rm_shape_fill_color_text" name="color" value="#123456"/></form>
+        <div id="rm_shape_fill_cp"></div><br>
+      </div>
+      <input type="button" value="Upload"  class="btn_t" onclick="mode_onclick(4)"><br>
+      <div id="sm_upload" class="sub_menu">
+        <form action="./cgis/upload.php" method="POST" enctype="multipart/form-data">
+          Image file:<br><input type="file" accept=".jpg,.png,image/jpeg,image/png" id='upload_select'>
+          <br>
+          <!--
+          <input type="submit" id="upload_image" value="upload">
+        -->
+        </form>
+      </div>
+      <hr>
+      <input type="button" value="Background"  class="btn_t" onclick="mode_onclick(5)"><br>
+      <div id="sm_background" class="sub_menu">
+        Color: <form><input type="text" id="rm_background_text" name="color" value="#FFFFFF"/></form>
+        <div id="rm_background_cp"></div>
+        <br>
+      </div>
+      <hr>
+      <input type="button" value="Text"  class="btn_t" onclick="mode_onclick(6)"><br>
+      <div id="sm_text" class="sub_menu">
+        Font Size:<input type="number" id="text_pixel" class="pixel" value="25" min="9" max="100" oninput="refresh_slider(value, 6)">pt<br>
+        <div class="slider" id="text_slider" style="margin:10px;"></div>
+        Color: <form><input type="text" id="rm_text_text" name="color" value="#000000"/></form><br>
+        <div id="rm_text_cp"></div>
+        <br>
+      </div>
+      <!--
+      <input type="button" value="Create infographic" class="btn_t">
+    -->
+      <br>
+      <!-- <a rel="leanModal" href="#div787" onclick="change_tab(1)">Create infographic</a> -->
+    </div>
+
+
+    <!--右クリックMenu用-->
+    <!--        <li id='copy'><img src='folder.gif' /> Open</li>こんな風にすれば画像が入れられる-->
+    <div class='contextMenu' id='myMenu1'>
+      <ul>
+        <li id='copy'>Copy</li>
+        <li id='cut'>Cut</li>
+        <li id='paste'>Paste</li>
+        <hr>
+        <li id='search'>Search</li>
+      </ul>
+    </div>
+
+    <!--ローディング中に表示しとく画面-->
+    <div id="loader-scr">
+      <div id="loader-img">
+      </div>
+    </div>
+  </body>
+</html>

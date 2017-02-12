@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>test</title>
+</head>
+
+<body>
+  <!-- pngを入れると自動的に500*500にリサイズしてハリスオペレータでエッジ検出してくれるの -->
+  <label for="input">画像: </label>
+  <input id="input" type="file" accept="image/png">
+  <label for="K">k: </label>
+  <select id="K">
+    <option value="0.04">0.04</option>
+    <option value="0.06">0.06</option>
+    <option value="0.08">0.08</option>
+    <option value="0.10">0.10</option>
+    <option value="0.12">0.12</option>
+    <option value="0.14">0.14</option>
+  </select>
+  <label>block size: </label>
+  <input type="radio" id="Block3" name="block" value="3"/>
+  <label for="Block3">3</label>
+  <input type="radio" id="Block5" name="block" value="5" checked="checked"/>
+  <label for="Block5">5</label><br>
+  <button id="button" onclick="detect_corners()">detect corners</button>
+  <br><br>
+
+  結果：<br>
+  <table>
+    <tr><th>リサイズ済み元画像：</th><th>コーナー表示：</th></tr>
+    <tr><td><canvas width="500" height="500" id="moto" style="border-style: solid; border-width: 1px"></canvas></td><td><canvas width="500" height="500" id="ato" style="border-style: solid; border-width: 1px"></canvas></td></tr>
+  </table>
+  <br>
+  <p id="result"></p>
+
+
+  <!-- コーナー検出 -->
+  <script type="text/javascript" src="./javascripts/harris_test.js"></script>
+  <script type="text/javascript" src="./javascripts/cornerdetect.js"></script>
+</body>
+</html>
