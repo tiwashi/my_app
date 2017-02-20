@@ -1,7 +1,6 @@
 <?php
-
 //取得したアカウントキー
-
+//$accountKey = “hogehoge”;
 
   //エンドポイントとパラメーターなどをセット
   //画像検索以外の場合は$serviceOpを変更
@@ -16,7 +15,6 @@
   $endpoint = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=$query&count=50&safeSearch=Strict&color=Monochrome&imageType=Clipart";
   //$endpoint = "https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27bike%27";
   // Encode the credentials and create the stream context.
-
 $auth = base64_encode("$accountKey:$accountKey");
 $data = array(
   'http' => array(
@@ -29,9 +27,7 @@ $data = array(
         "verify_peer"=>false,
         "verify_peer_name"=>false),
   );
-
 $context = stream_context_create($data);
 $result = file_get_contents($endpoint, false, $context);
 echo($result);
-
  ?>
