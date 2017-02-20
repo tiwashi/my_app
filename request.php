@@ -1,6 +1,7 @@
 <?php
 //取得したアカウントキー
 //$accountKey = “hogehoge”;
+require('BingApi.php');
 
   //エンドポイントとパラメーターなどをセット
   //画像検索以外の場合は$serviceOpを変更
