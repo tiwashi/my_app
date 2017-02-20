@@ -1,12 +1,7 @@
 <?php
 
 //取得したアカウントキー
-  //$accountKey = 'Bod44rXlmwPIHsZKcDkSaclUV7C3sLcHoxk0tmb7jq8';
-  //$accountKey="6b00f271115949d5ab4db78ed9b08593";
-  $accountKey="6d3af3cbf62940b8b4edfe02d7706491";
-  //$accountKey="9f3ed67d6ebf4ef5b0599f7c0478500b";
-  //ver 5 Key 1:6b00f271115949d5ab4db78ed9b08593
-  //ver 5 key 2:9f3ed67d6ebf4ef5b0599f7c0478500b
+
 
   //エンドポイントとパラメーターなどをセット
   //画像検索以外の場合は$serviceOpを変更
